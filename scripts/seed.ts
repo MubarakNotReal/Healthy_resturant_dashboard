@@ -65,6 +65,8 @@ async function ensureSubscription(userId: number, planId: number, planName: stri
 
   const start = new Date();
   const end = addDays(start, 30);
+  const startDate = start.toISOString().split('T')[0];
+  const endDate = end.toISOString().split('T')[0];
 
   const [created] = await db
     .insert(subscriptions)
@@ -72,8 +74,8 @@ async function ensureSubscription(userId: number, planId: number, planName: stri
       userId,
       planId,
       plan: planName,
-      startDate: start,
-      endDate: end,
+      startDate,
+      endDate,
       status: 'active',
       paymentMethod: 'seeded',
       paymentAmount: 99,
