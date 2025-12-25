@@ -1,0 +1,34 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1766490650150,
+      "tag": "0000_silky_sleepwalker",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1766490728038,
+      "tag": "0001_secret_tana_nile",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1766492676112,
+      "tag": "0002_good_penance",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1766496727790,
+      "tag": "0003_premium_madripoor",
+      "breakpoints": true
+    }
+  ]
+}
