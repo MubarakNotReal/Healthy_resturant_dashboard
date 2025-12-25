@@ -35,7 +35,8 @@ app.use('/api', checkInRoutes);
 
 if (fs.existsSync(distPath)) {
   app.use(express.static(distPath));
-  app.get('*', (req, res, next) => {
+  // Express 5 requires a path with a segment; use catch-all via app.use
+  app.use((req, res, next) => {
     if (req.path.startsWith('/api')) return next();
     res.sendFile(path.join(distPath, 'index.html'));
   });
