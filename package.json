@@ -14,7 +14,7 @@
     "preview": "vite preview",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "db:push": "DRIZZLE_CONFIRM=true drizzle-kit push",
+    "db:push": "drizzle-kit push --force",
     "db:studio": "drizzle-kit studio",
     "seed": "tsx scripts/seed.ts"
   },
