@@ -4,6 +4,5 @@ node_modules
 .vscode
 .idea
 dist
-bun.lockb
 *.log
 **/.DS_Store
