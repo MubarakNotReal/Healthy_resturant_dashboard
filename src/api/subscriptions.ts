@@ -41,7 +41,11 @@ router.get('/subscriptions/customers', async (_req, res) => {
         s.created_at AS "createdAt",
         u.name AS "customerName",
         u.phone AS "customerPhone",
-        p.duration
+        p.duration,
+        p.allow_backup_days AS "allowBackupDays",
+        p.max_backup_days AS "maxBackupDays",
+        p.allow_pause AS "allowPause",
+        p.max_pause_days AS "maxPauseDays"
       FROM subscriptions s
       LEFT JOIN users u ON s.user_id = u.id
       LEFT JOIN subscription_plans p ON s.plan_id = p.id
@@ -111,7 +115,7 @@ router.get('/subscriptions/:id', async (req, res) => {
 // POST /api/subscriptions - Create new subscription plan (admin only)
 router.post('/subscriptions', async (req, res) => {
   try {
-    const { name, description, price, duration, mealsPerDay, features } = req.body;
+    const { name, description, price, duration, mealsPerDay, features, allowBackupDays, maxBackupDays, allowPause, maxPauseDays } = req.body;
 
     if (!name || !price || !duration) {
       return res.status(400).json({ error: 'Name, price, and duration are required' });
@@ -120,9 +124,23 @@ router.post('/subscriptions', async (req, res) => {
     const parsedPrice = parseFloat(price);
     const parsedDuration = parseInt(duration);
     const parsedMeals = mealsPerDay ? parseInt(mealsPerDay) : 1;
+    const parsedMaxBackup = maxBackupDays !== undefined ? parseInt(maxBackupDays) : 5;
+    const parsedMaxPause = maxPauseDays !== undefined ? parseInt(maxPauseDays) : 7;
 
-    if ([parsedPrice, parsedDuration, parsedMeals].some((n) => Number.isNaN(n))) {
-      return res.status(400).json({ error: 'Price, duration, or mealsPerDay is invalid' });
+    const toBoolean = (value: any, fallback: boolean) => {
+      if (value === undefined || value === null) return fallback;
+      if (typeof value === 'string') {
+        const normalized = value.toLowerCase();
+        return normalized === 'true' || normalized === '1' || normalized === 'on';
+      }
+      return Boolean(value);
+    };
+
+    const allowBackupFlag = toBoolean(allowBackupDays, true);
+    const allowPauseFlag = toBoolean(allowPause, true);
+
+    if ([parsedPrice, parsedDuration, parsedMeals, parsedMaxBackup, parsedMaxPause].some((n) => Number.isNaN(n))) {
+      return res.status(400).json({ error: 'Price, duration, mealsPerDay, or rule limits are invalid' });
     }
 
     const newPlan = await db.insert(subscriptionPlans).values({
@@ -131,6 +149,10 @@ router.post('/subscriptions', async (req, res) => {
       price: parsedPrice,
       duration: parsedDuration, // in days
       mealsPerDay: parsedMeals,
+      allowBackupDays: allowBackupFlag,
+      maxBackupDays: parsedMaxBackup,
+      allowPause: allowPauseFlag,
+      maxPauseDays: parsedMaxPause,
       features: features || null,
       status: 'active',
     }).returning();
@@ -146,7 +168,7 @@ router.post('/subscriptions', async (req, res) => {
 router.put('/subscriptions/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, description, price, duration, mealsPerDay, features, status } = req.body;
+    const { name, description, price, duration, mealsPerDay, features, status, allowBackupDays, maxBackupDays, allowPause, maxPauseDays } = req.body;
 
     if (!name || !price || !duration) {
       return res.status(400).json({ error: 'Name, price, and duration are required' });
@@ -156,13 +178,27 @@ router.put('/subscriptions/:id', async (req, res) => {
     const parsedPrice = parseFloat(price);
     const parsedDuration = parseInt(duration);
     const parsedMeals = mealsPerDay ? parseInt(mealsPerDay) : 1;
+    const parsedMaxBackup = maxBackupDays !== undefined ? parseInt(maxBackupDays) : 5;
+    const parsedMaxPause = maxPauseDays !== undefined ? parseInt(maxPauseDays) : 7;
+
+    const toBoolean = (value: any, fallback: boolean) => {
+      if (value === undefined || value === null) return fallback;
+      if (typeof value === 'string') {
+        const normalized = value.toLowerCase();
+        return normalized === 'true' || normalized === '1' || normalized === 'on';
+      }
+      return Boolean(value);
+    };
+
+    const allowBackupFlag = toBoolean(allowBackupDays, true);
+    const allowPauseFlag = toBoolean(allowPause, true);
 
     if (Number.isNaN(planId)) {
       return res.status(400).json({ error: 'Invalid subscription plan id' });
     }
 
-    if ([parsedPrice, parsedDuration, parsedMeals].some((n) => Number.isNaN(n))) {
-      return res.status(400).json({ error: 'Price, duration, or mealsPerDay is invalid' });
+    if ([parsedPrice, parsedDuration, parsedMeals, parsedMaxBackup, parsedMaxPause].some((n) => Number.isNaN(n))) {
+      return res.status(400).json({ error: 'Price, duration, mealsPerDay, or rule limits are invalid' });
     }
 
     const updatedPlan = await db
@@ -173,6 +209,10 @@ router.put('/subscriptions/:id', async (req, res) => {
         price: parsedPrice,
         duration: parsedDuration,
         mealsPerDay: parsedMeals,
+        allowBackupDays: allowBackupFlag,
+        maxBackupDays: parsedMaxBackup,
+        allowPause: allowPauseFlag,
+        maxPauseDays: parsedMaxPause,
         features: features || null,
         status: status || 'active',
       })

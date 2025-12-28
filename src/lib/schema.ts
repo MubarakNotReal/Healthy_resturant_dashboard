@@ -30,6 +30,10 @@ export const subscriptionPlans = pgTable('subscription_plans', {
   price: decimal('price', { precision: 10, scale: 2 }).notNull(),
   duration: integer('duration').notNull(), // in days
   mealsPerDay: integer('meals_per_day').default(1).notNull(),
+  allowBackupDays: boolean('allow_backup_days').default(true).notNull(),
+  maxBackupDays: integer('max_backup_days').default(5).notNull(),
+  allowPause: boolean('allow_pause').default(true).notNull(),
+  maxPauseDays: integer('max_pause_days').default(7).notNull(),
   features: text('features'), // JSON string of features
   status: varchar('status', { length: 50 }).default('active').notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),

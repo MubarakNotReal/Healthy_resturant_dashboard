@@ -114,56 +114,31 @@ const SettingsPage = () => {
               <Card className="shadow-soft">
                 <CardHeader>
                   <CardTitle>Subscription Rules</CardTitle>
-                  <CardDescription>
-                    Configure how subscriptions and backup days work
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-6">
+                <CardDescription>
+                  Configure how subscriptions and backup days work
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                  <div className="rounded-lg border border-border bg-muted/20 p-4">
+                    <p className="text-sm font-medium">Per-plan rules moved to subscription creation.</p>
+                    <p className="text-xs text-muted-foreground">
+                      Set backup/pause allowances when you create a subscription plan so each plan can have different limits.
+                    </p>
+                  </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="space-y-4">
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <Label>Allow Backup Days</Label>
-                          <p className="text-sm text-muted-foreground">
-                            Missed days can be claimed later
-                          </p>
-                        </div>
-                        <Switch defaultChecked />
-                      </div>
-                      <div className="space-y-2">
-                        <Label>Max Backup Days</Label>
-                        <Input type="number" defaultValue="5" />
-                      </div>
-                      <div className="space-y-2">
-                        <Label>Backup Days Grace Period</Label>
-                        <Input type="number" defaultValue="7" />
-                        <p className="text-xs text-muted-foreground">
-                          Days after subscription ends to use backup days
-                        </p>
-                      </div>
+                    <div className="space-y-2">
+                      <Label>Backup Days Grace Period</Label>
+                      <Input type="number" defaultValue="7" />
+                      <p className="text-xs text-muted-foreground">
+                        Days after subscription ends to use backup days
+                      </p>
                     </div>
-
-                    <div className="space-y-4">
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <Label>Allow Subscription Pause</Label>
-                          <p className="text-sm text-muted-foreground">
-                            Customers can temporarily freeze
-                          </p>
-                        </div>
-                        <Switch defaultChecked />
-                      </div>
-                      <div className="space-y-2">
-                        <Label>Max Pause Days</Label>
-                        <Input type="number" defaultValue="7" />
-                      </div>
-                      <div className="space-y-2">
-                        <Label>Staff Edit Window (Days)</Label>
-                        <Input type="number" defaultValue="3" />
-                        <p className="text-xs text-muted-foreground">
-                          How far back staff can edit attendance
-                        </p>
-                      </div>
+                    <div className="space-y-2">
+                      <Label>Staff Edit Window (Days)</Label>
+                      <Input type="number" defaultValue="3" />
+                      <p className="text-xs text-muted-foreground">
+                        How far back staff can edit attendance
+                      </p>
                     </div>
                   </div>
 

@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from "@/components/ui/dialog";
 import { Package, Search, Upload, CalendarClock } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
@@ -22,6 +23,10 @@ interface SubscriptionPlan {
   mealsPerDay: number;
   status: string;
   features: string | null;
+  allowBackupDays: boolean;
+  maxBackupDays: number;
+  allowPause: boolean;
+  maxPauseDays: number;
 }
 
 interface AssignmentCustomer {
@@ -71,6 +76,10 @@ const SubscriptionsPage = () => {
     duration: "",
     mealsPerDay: "1",
     features: "",
+    allowBackupDays: true,
+    maxBackupDays: "5",
+    allowPause: true,
+    maxPauseDays: "7",
   });
 
   useEffect(() => {
@@ -176,6 +185,10 @@ const SubscriptionsPage = () => {
           duration: Number(createForm.duration),
           mealsPerDay: Number(createForm.mealsPerDay || 1),
           features: createForm.features || undefined,
+          allowBackupDays: createForm.allowBackupDays,
+          maxBackupDays: Number(createForm.maxBackupDays || 0),
+          allowPause: createForm.allowPause,
+          maxPauseDays: Number(createForm.maxPauseDays || 0),
         }),
       });
 
@@ -186,7 +199,18 @@ const SubscriptionsPage = () => {
 
       toast.success(t("subscriptionsAssign.dialogSubmit"));
       setIsCreateOpen(false);
-      setCreateForm({ name: "", description: "", price: "", duration: "", mealsPerDay: "1", features: "" });
+      setCreateForm({
+        name: "",
+        description: "",
+        price: "",
+        duration: "",
+        mealsPerDay: "1",
+        features: "",
+        allowBackupDays: true,
+        maxBackupDays: "5",
+        allowPause: true,
+        maxPauseDays: "7",
+      });
 
       // Refresh plans list
       setLoadingPlans(true);
@@ -254,6 +278,24 @@ const SubscriptionsPage = () => {
                   {plan.description && (
                     <p className="text-sm leading-relaxed text-muted-foreground">{plan.description}</p>
                   )}
+                  <div className="rounded-md bg-muted/40 p-3 text-xs text-muted-foreground space-y-1">
+                    <div className="flex items-center justify-between">
+                      <span>{t("subscriptionsAssign.backupRuleLabel")}</span>
+                      <span className="font-medium text-foreground">
+                        {plan.allowBackupDays
+                          ? t("subscriptionsAssign.ruleAllowed", { count: plan.maxBackupDays })
+                          : t("subscriptionsAssign.ruleNotAllowed")}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span>{t("subscriptionsAssign.pauseRuleLabel")}</span>
+                      <span className="font-medium text-foreground">
+                        {plan.allowPause
+                          ? t("subscriptionsAssign.ruleAllowed", { count: plan.maxPauseDays })
+                          : t("subscriptionsAssign.ruleNotAllowed")}
+                      </span>
+                    </div>
+                  </div>
                   {isAdmin && plan.status !== "active" && (
                     <p className="text-xs text-amber-600">{t("subscriptionsAssign.planInactive")}</p>
                   )}
@@ -437,6 +479,66 @@ const SubscriptionsPage = () => {
                 placeholder="Comma-separated or free text"
                 rows={2}
               />
+            </div>
+            <div className="space-y-2 rounded-lg border border-border bg-muted/30 p-3">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium">{t("subscriptionsAssign.rulesHeading")}</p>
+                  <p className="text-xs text-muted-foreground">
+                    {t("subscriptionsAssign.rulesSubheading")}
+                  </p>
+                </div>
+              </div>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <Label>{t("subscriptionsAssign.allowBackupLabel")}</Label>
+                    <p className="text-xs text-muted-foreground">{t("subscriptionsAssign.allowBackupHint")}</p>
+                  </div>
+                  <Switch
+                    checked={createForm.allowBackupDays}
+                    onCheckedChange={(checked) =>
+                      setCreateForm((prev) => ({ ...prev, allowBackupDays: checked }))
+                    }
+                  />
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div className="space-y-1">
+                    <Label>{t("subscriptionsAssign.maxBackupLabel")}</Label>
+                    <Input
+                      type="number"
+                      min="0"
+                      value={createForm.maxBackupDays}
+                      onChange={(e) =>
+                        setCreateForm((prev) => ({ ...prev, maxBackupDays: e.target.value }))
+                      }
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <Label>{t("subscriptionsAssign.maxPauseLabel")}</Label>
+                    <Input
+                      type="number"
+                      min="0"
+                      value={createForm.maxPauseDays}
+                      onChange={(e) =>
+                        setCreateForm((prev) => ({ ...prev, maxPauseDays: e.target.value }))
+                      }
+                    />
+                  </div>
+                </div>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <Label>{t("subscriptionsAssign.allowPauseLabel")}</Label>
+                    <p className="text-xs text-muted-foreground">{t("subscriptionsAssign.allowPauseHint")}</p>
+                  </div>
+                  <Switch
+                    checked={createForm.allowPause}
+                    onCheckedChange={(checked) =>
+                      setCreateForm((prev) => ({ ...prev, allowPause: checked }))
+                    }
+                  />
+                </div>
+              </div>
             </div>
           </div>
           <DialogFooter className="gap-2">
