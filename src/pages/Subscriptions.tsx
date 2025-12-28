@@ -75,11 +75,11 @@ const SubscriptionsPage = () => {
     price: "",
     duration: "",
     mealsPerDay: "1",
-    features: "",
     allowBackupDays: true,
     maxBackupDays: "5",
     allowPause: true,
     maxPauseDays: "7",
+    features: "",
   });
 
   useEffect(() => {
@@ -205,11 +205,11 @@ const SubscriptionsPage = () => {
         price: "",
         duration: "",
         mealsPerDay: "1",
-        features: "",
         allowBackupDays: true,
         maxBackupDays: "5",
         allowPause: true,
         maxPauseDays: "7",
+        features: "",
       });
 
       // Refresh plans list
@@ -471,15 +471,6 @@ const SubscriptionsPage = () => {
                 />
               </div>
             </div>
-            <div className="space-y-1">
-              <Label>{t("subscriptionsAssign.featuresLabel")}</Label>
-              <Textarea
-                value={createForm.features}
-                onChange={(e) => setCreateForm((p) => ({ ...p, features: e.target.value }))}
-                placeholder="Comma-separated or free text"
-                rows={2}
-              />
-            </div>
             <div className="space-y-2 rounded-lg border border-border bg-muted/30 p-3">
               <div className="flex items-center justify-between">
                 <div>
@@ -539,6 +530,15 @@ const SubscriptionsPage = () => {
                   />
                 </div>
               </div>
+            </div>
+            <div className="space-y-1">
+              <Label>{t("subscriptionsAssign.featuresLabel")}</Label>
+              <Textarea
+                value={createForm.features}
+                onChange={(e) => setCreateForm((p) => ({ ...p, features: e.target.value }))}
+                placeholder="Comma-separated or free text"
+                rows={2}
+              />
             </div>
           </div>
           <DialogFooter className="gap-2">

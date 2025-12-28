@@ -119,27 +119,14 @@ const SettingsPage = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
-                  <div className="rounded-lg border border-border bg-muted/20 p-4">
+                  <div className="rounded-lg border border-border bg-muted/20 p-4 space-y-2">
                     <p className="text-sm font-medium">Per-plan rules moved to subscription creation.</p>
                     <p className="text-xs text-muted-foreground">
-                      Set backup/pause allowances when you create a subscription plan so each plan can have different limits.
+                      Set backup/pause allowances while creating each plan on the Subscriptions page so every plan can have its own limits.
                     </p>
-                  </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <Label>Backup Days Grace Period</Label>
-                      <Input type="number" defaultValue="7" />
-                      <p className="text-xs text-muted-foreground">
-                        Days after subscription ends to use backup days
-                      </p>
-                    </div>
-                    <div className="space-y-2">
-                      <Label>Staff Edit Window (Days)</Label>
-                      <Input type="number" defaultValue="3" />
-                      <p className="text-xs text-muted-foreground">
-                        How far back staff can edit attendance
-                      </p>
-                    </div>
+                    <Button asChild variant="outline" className="mt-2 w-fit">
+                      <a href="/subscriptions">Go to Subscriptions</a>
+                    </Button>
                   </div>
 
                   <Separator />
