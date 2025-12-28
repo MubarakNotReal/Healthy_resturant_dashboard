@@ -64,7 +64,7 @@ export function Sidebar() {
             </div>
             {!collapsed && (
               <span className="text-lg font-bold text-sidebar-foreground">
-                NutriMeal
+                Healthy Life هلثي لايف
               </span>
             )}
           </Link>

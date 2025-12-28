@@ -66,11 +66,11 @@ const SettingsPage = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <Label htmlFor="storeName">Store Name</Label>
-                    <Input id="storeName" defaultValue="NutriMeal Kitchen" />
+                    <Input id="storeName" defaultValue="Healthy Life هلثي لايف" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="storeNameAr">Store Name (Arabic)</Label>
-                    <Input id="storeNameAr" defaultValue="مطبخ نيوتري ميل" className="font-cairo text-right" dir="rtl" />
+                    <Input id="storeNameAr" defaultValue="هلثي لايف" className="font-cairo text-right" dir="rtl" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="phone">Contact Phone</Label>
