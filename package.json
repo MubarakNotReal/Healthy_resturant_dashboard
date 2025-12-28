@@ -17,6 +17,7 @@
     "db:push": "drizzle-kit push --force",
     "db:studio": "drizzle-kit studio",
     "seed": "tsx scripts/seed.ts"
+    "start:prod": "bun run db:push && bun run seed && bun run start"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
