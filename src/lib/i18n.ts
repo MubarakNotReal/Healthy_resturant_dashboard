@@ -101,7 +101,7 @@ export const translations: Record<SupportedLocale, TranslationRecord> = {
       empty: "No alerts right now.",
     },
     login: {
-      appName: "Nourish Hub",
+      appName: "Healthy Life هلثي لايف",
       subtitle: "Sign in to access your dashboard",
       username: "Username",
       password: "Password",
@@ -500,7 +500,7 @@ export const translations: Record<SupportedLocale, TranslationRecord> = {
       empty: "لا توجد تنبيهات حالياً.",
     },
     login: {
-      appName: "Nourish Hub",
+      appName: "Healthy Life هلثي لايف",
       subtitle: "سجّل الدخول للوصول للوحة التحكم",
       username: "اسم المستخدم",
       password: "كلمة المرور",
