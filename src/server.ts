@@ -7,6 +7,7 @@ import { fileURLToPath } from 'url';
 import customerRoutes from './api/customers.js';
 import subscriptionRoutes from './api/subscriptions.js';
 import checkInRoutes from './api/checkins-server.js';
+import teamRoutes from './api/team.js';
 import { db } from './lib/db';
 import { users } from './lib/schema';
 
@@ -32,6 +33,7 @@ app.use(express.json());
 app.use('/api', customerRoutes);
 app.use('/api', subscriptionRoutes);
 app.use('/api', checkInRoutes);
+app.use('/api', teamRoutes);
 
 if (fs.existsSync(distPath)) {
   app.use(express.static(distPath));
